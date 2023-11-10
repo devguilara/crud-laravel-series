@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Episode extends Model
 {
     use HasFactory;
+
+    public function season()
+    {
+        return $this->belongTo(Season::class);
+    }
 }

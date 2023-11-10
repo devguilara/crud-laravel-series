@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Season extends Model
 {
     use HasFactory;
+
+    public function series()
+    {
+      return $this->belongTo(Serie::class);
+    }
+
+    public function episodes()
+    {
+        return $this->hasMany(Episodes::class);
+
+    }
 }
