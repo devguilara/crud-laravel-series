@@ -34,41 +34,38 @@ class SeriesController extends Controller
     {   
         $serie = Serie::create($req->all());
         $seasons = [];
+        for ($i = 1; $i <= $req->seasons; $i++) {
+            $seasons[] = [
+                'series_id' => $serie->id,
+                'number' => $i,
+            ];
+        }
+        Season::insert($seasons);
 
-            for($i = 1; $i <= $req->seasons; $i++ ){
-                $seasons = [
-                        'series_id' => $serie->id,
-                        'number' => $i,
-                    ];
-                }
-            Season::insert($seasons);
-            $episodes=[];
-            foreach($serie->seasons as $season){
-
-            
-                for($k = 1; $k <= $req->epsSeasons; $k++ ){
-                    $episodes = [
-                        'season_id' => $season->id,
-                        'number' => $k
-                    ];
-                }
+        $episodes = [];
+        foreach ($serie->seasons as $season) {
+            for ($j = 1; $j <= $req->epsSeasons; $j++) {
+                $episodes[] = [
+                    'season_id' => $season->id,
+                    'number' => $j
+                ];
             }
-            Episode::insert($episodes);
+        }
+        Episode::insert($episodes);
+
         return to_route('series.index')
-            ->with('mensagem.sucesso', "Série '{$serie->nome}' adicionada com Sucesso");
+            ->with('mensagem.sucesso', "Série '{$serie->nome}' adicionada com sucesso");
     }
 
-    public function destroy(Serie $series, Request $req)
+    public function destroy(Serie $series)
     {   
         $series->delete();
-        $req->session()->put('mensagem.sucesso',"Série '{$series->nome}' removida com sucesso");
 
-        return to_route('series.index');
-
-
+        return to_route('series.index')
+            ->with('mensagem.sucesso', "Série '{$series->nome}' removida com sucesso");
     }
 
-    public function edit(Serie $series, Request $req)
+    public function edit(Serie $series)
     {   
       return view('series.edit')->with('serie', $series);
 
