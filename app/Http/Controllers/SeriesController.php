@@ -3,16 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SeriesFormRequest;
+use App\Repositories\EloquentSeriesRepository;
 
 
 use App\Models\Serie;
-use App\Models\Season;
-use App\Models\Episode;
-
+use App\Repositories\SeriesRepository;
 use Illuminate\Http\Request;
+
 
 class SeriesController extends Controller
 {
+    public function __construct(private SeriesRepository $repo)
+    {  
+    }
+
     public function index(Request $req)
     {
         $series = Serie::with(['seasons'])->get();
@@ -32,27 +36,8 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $req)
     {   
-        $serie = Serie::create($req->all());
-        $seasons = [];
-        for ($i = 1; $i <= $req->seasons; $i++) {
-            $seasons[] = [
-                'series_id' => $serie->id,
-                'number' => $i,
-            ];
-        }
-        Season::insert($seasons);
 
-        $episodes = [];
-        foreach ($serie->seasons as $season) {
-            for ($j = 1; $j <= $req->epsSeasons; $j++) {
-                $episodes[] = [
-                    'season_id' => $season->id,
-                    'number' => $j
-                ];
-            }
-        }
-        Episode::insert($episodes);
-
+        $serie = $this->repo->addSerie($req);
         return to_route('series.index')
             ->with('mensagem.sucesso', "Série '{$serie->nome}' adicionada com sucesso");
     }
