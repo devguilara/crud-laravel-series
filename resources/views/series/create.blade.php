@@ -1,4 +1,6 @@
+
 <x-layout title="Nova Série">
+    <a href="{{ URL::previous()}}" class="btn btn-primary mt-3 mb-3" >Voltar</a>
     <form action="{{route('series.store')}}" method="post">
         @csrf
         <div class="row mb-3">
