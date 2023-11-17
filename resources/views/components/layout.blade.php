@@ -1,46 +1,53 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<!doctype html>
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{$title}} - Controle de Séries</title>
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ $title }} - Controle de Séries</title>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/estilos.css') }}">
 </head>
 <body>
-    <div>   
-                <nav class="navbar navbar-light bg-dark">
-                    <div class="navbar-nav px-4">
-                        <a class="nav-item nav-link" style="color: #ffffff" href="{{route('series.index')}}">Home</a>
-                    </div>        
-                               
-                </nav> 
-                <hr style="color:#ffffff; margin: 0rem 0 !important"/>
-                <div class="text-center bg-dark p-2">
-                    <h1  class="px-4 " style="color: #ffffff">{{$title}}</h1></span>
-               </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ route('series.index') }}">Home</a>
+
+        @auth
+        <form action="{{ route('logout') }}" method="post">
+            @csrf
+            <button class="btn btn-link">
+                Sair
+            </button>
+        </form>
+        @endauth
+
+        @guest
+        <a href="{{ route('login') }}">Entrar</a>
+        @endguest
     </div>
-   
-    
+</nav>
+<div class="container">
+    <h1>{{ $title }}</h1>
+
     @isset($mensagemSucesso)
-    <div class="alert alert-success" role="alert">
-        {{$mensagemSucesso}}
-    </div>
+        <div class="alert alert-success">
+            {{ $mensagemSucesso }}
+        </div>
     @endisset
 
-<div class="container  m-5">
     @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
     @endif
-    
+
     {{ $slot }}
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" integrity="sha512-uKQ39gEGiyUJl4AI6L+ekBdGKpGw4xJ55+xyJG7YFlJokPNYegn9KwQ3P8A7aFQAUtUsAQHep+d/lrGqrbPIDQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>
 </html>

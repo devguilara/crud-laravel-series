@@ -1,29 +1,37 @@
-
 <x-layout title="Nova Série">
-    <a href="{{ URL::previous()}}" class="btn btn-primary mt-3 mb-3" >Voltar</a>
-    <form action="{{route('series.store')}}" method="post">
+    <form action="{{ route('series.store') }}" method="post">
         @csrf
+
         <div class="row mb-3">
-
-            <div class="mb-3 col-8">
-                <label class="form-label" for="nome">Nome:</label>
-                <input autofocus class="form-control" type="text" id="nome" name="nome"
-                value="{{old('nome')}}">
+            <div class="col-8">
+                <label for="nome" class="form-label">Nome:</label>
+                <input type="text"
+                       autofocus
+                       id="nome"
+                       name="nome"
+                       class="form-control"
+                       value="{{ old('nome') }}">
             </div>
 
-            <div class="mb-3 col-2">
-                <label class="form-label" for="seasons">Nº Temporadas:</label>
-                <input class="form-control" type="text" id="seasons" name="seasons"
-                value="{{old('nome')}}">
+            <div class="col-2">
+                <label for="seasonsQty" class="form-label">Nº Temporadas:</label>
+                <input type="text"
+                       id="seasonsQty"
+                       name="seasonsQty"
+                       class="form-control"
+                       value="{{ old('seasonsQty') }}">
             </div>
 
-            <div class="mb-3 col-2">
-                <label class="form-label" for="epsSeasons">Eps / Temporadas</label>
-                <input class="form-control" type="text" id="epsSeasons" name="epsSeasons"
-                value="{{old('nome')}}">
+            <div class="col-2">
+                <label for="episodesPerSeason" class="form-label">Eps / Temporada:</label>
+                <input type="text"
+                       id="episodesPerSeason"
+                       name="episodesPerSeason"
+                       class="form-control"
+                       value="{{ old('episodesPerSeason') }}">
             </div>
         </div>
 
-        <button class="btn btn-success" type="submit">Adicionar</button>
+        <button type="submit" class="btn btn-primary">Adicionar</button>
     </form>
 </x-layout>

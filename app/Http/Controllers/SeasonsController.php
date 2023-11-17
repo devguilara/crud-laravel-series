@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Serie;
+
+use App\Models\Series;
 
 class SeasonsController extends Controller
 {
-    public function index(Serie $series)
+    public function index(Series $series)
     {
         $seasons = $series->seasons()->with('episodes')->get();
 
